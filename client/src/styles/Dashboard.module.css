@@ -1,0 +1,230 @@
+.dashboardContainer {
+  padding: 2rem 0;
+}
+
+.dashboardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.welcomeText {
+  font-weight: 700 !important;
+  color: #1a1a1a;
+  margin-bottom: 0.5rem !important;
+}
+
+.subText {
+  color: #718096;
+}
+
+.newTripButton {
+  background: linear-gradient(90deg, #48bb78, #38a169) !important;
+  border-radius: 50px !important;
+  padding: 0.75rem 1.5rem !important;
+  text-transform: none !important;
+  font-weight: 600 !important;
+  color: white !important;
+  transition: all 0.2s ease !important;
+}
+
+.newTripButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(72, 187, 120, 0.2) !important;
+}
+
+.statsSection {
+  margin-bottom: 2rem;
+}
+
+.statCard {
+  padding: 1.5rem !important;
+  height: 100%;
+  border-radius: 16px !important;
+  background: #ffffff !important;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08) !important;
+  transition: transform 0.2s ease;
+}
+
+.statCard:hover {
+  transform: translateY(-4px);
+}
+
+.statContent {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.statIcon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon {
+  font-size: 1.5rem !important;
+  color: #2d3748;
+}
+
+.statValue {
+  font-weight: 700 !important;
+  color: #1a1a1a;
+  margin-bottom: 0.25rem !important;
+}
+
+.statLabel {
+  color: #718096;
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.viewAllButton {
+  color: #4a5568 !important;
+  text-transform: none !important;
+  font-weight: 500 !important;
+}
+
+.tripsGrid {
+  margin-bottom: 2rem;
+}
+
+.tripCard {
+  border-radius: 16px !important;
+  background: #ffffff !important;
+  border: 1px solid rgba(0, 0, 0, 0.08) !important;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08) !important;
+  transition: transform 0.2s ease;
+}
+
+.tripCard:hover {
+  transform: translateY(-4px);
+}
+
+.tripHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+.tripDestination {
+  font-weight: 600 !important;
+  color: #1a1a1a;
+}
+
+.statusChip {
+  font-weight: 500 !important;
+  text-transform: capitalize !important;
+}
+
+.tripDetails {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.tripInfo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #718096;
+}
+
+.tripIcon {
+  font-size: 1.25rem !important;
+  opacity: 0.7;
+}
+
+.budgetProgress {
+  margin-top: 1rem;
+}
+
+.budgetHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.progressBar {
+  height: 8px !important;
+  border-radius: 4px !important;
+  background-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+.progressBar > * {
+  background: linear-gradient(90deg, #48bb78, #38a169) !important;
+}
+
+.budgetChart {
+  padding: 1.5rem !important;
+  height: 100%;
+  border-radius: 16px !important;
+  background: #ffffff !important;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08) !important;
+}
+
+.chartPlaceholder {
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.02);
+  border-radius: 8px;
+  margin-top: 1rem;
+}
+
+.recentActivity {
+  padding: 1.5rem !important;
+  height: 100%;
+  border-radius: 16px !important;
+  background: #ffffff !important;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08) !important;
+}
+
+.activityList {
+  margin-top: 1rem;
+}
+
+.activityItem {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+}
+
+.activityItem:hover {
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+.activityIcon {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.activityContent {
+  flex: 1;
+}
+
+.activityAmount {
+  font-weight: 600 !important;
+} 

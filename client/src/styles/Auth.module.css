@@ -1,0 +1,184 @@
+.authContainer {
+  flex: 1;
+  padding: 4rem 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+}
+
+.authPaper {
+  padding: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  background: #ffffff !important;
+  border-radius: 16px !important;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08) !important;
+}
+
+.authPaper::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #2d3748, #1a365d);
+}
+
+.authTitle {
+  font-size: 2rem !important;
+  font-weight: 700 !important;
+  margin-bottom: 0.75rem !important;
+  color: #1a1a1a !important;
+  letter-spacing: -0.5px;
+}
+
+.authSubtitle {
+  margin-bottom: 2rem !important;
+  color: #4a5568 !important;
+  text-align: center;
+  font-size: 1rem !important;
+}
+
+.alert {
+  width: 100%;
+  margin-bottom: 1.5rem;
+  border-radius: 12px !important;
+  background-color: #FEE2E2 !important;
+  color: #991B1B !important;
+  border: 1px solid #FCA5A5;
+}
+
+.form {
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+.form :global(.MuiInputBase-root) {
+  background-color: #ffffff;
+  border-radius: 12px;
+  color: #1a1a1a !important;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 4px 14px !important;
+  transition: all 0.2s ease;
+}
+
+.form :global(.MuiInputBase-root:hover) {
+  background-color: #ffffff;
+  border-color: rgba(45, 55, 72, 0.3);
+}
+
+.form :global(.MuiInputLabel-root) {
+  color: #4a5568 !important;
+  background-color: #ffffff;
+  padding: 0 8px;
+  margin-left: -4px;
+  font-size: 0.9rem !important;
+}
+
+.form :global(.MuiInputLabel-root.Mui-focused) {
+  color: #2d3748 !important;
+}
+
+.form :global(.MuiInputLabel-shrink) {
+  transform: translate(14px, -9px) scale(0.75) !important;
+  background: #ffffff;
+}
+
+.form :global(.MuiOutlinedInput-notchedOutline) {
+  border: none !important;
+}
+
+.form :global(.MuiOutlinedInput-root) {
+  transition: all 0.2s ease;
+}
+
+.form :global(.MuiOutlinedInput-root.Mui-focused) {
+  border-color: #2d3748 !important;
+  box-shadow: 0 0 0 2px rgba(45, 55, 72, 0.2);
+}
+
+.form :global(.MuiInputAdornment-root) {
+  margin-right: 8px !important;
+}
+
+.form :global(.MuiInputAdornment-root .MuiSvgIcon-root) {
+  color: #4a5568;
+  font-size: 1.2rem;
+}
+
+.form :global(.MuiIconButton-root) {
+  color: #4a5568;
+  padding: 8px;
+  margin-right: -8px;
+}
+
+.form :global(.MuiIconButton-root:hover) {
+  background-color: rgba(45, 55, 72, 0.05);
+}
+
+.form :global(.MuiTextField-root) {
+  margin: 16px 0 !important;
+}
+
+.submitButton {
+  margin: 2rem 0 1rem 0 !important;
+  padding: 1rem !important;
+  border-radius: 50px !important;
+  font-weight: 600 !important;
+  font-size: 1rem !important;
+  text-transform: none !important;
+  background: linear-gradient(90deg, #2d3748, #1a365d) !important;
+  transition: all 0.3s ease !important;
+  color: #fff !important;
+  letter-spacing: 0.5px;
+}
+
+.submitButton:hover {
+  background: linear-gradient(90deg, #1a365d, #2d3748) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(45, 55, 72, 0.2) !important;
+}
+
+.switchButton {
+  margin-top: 0.5rem !important;
+  text-transform: none !important;
+  font-weight: 500 !important;
+  color: #4a5568 !important;
+  border-radius: 50px !important;
+  padding: 0.5rem 1rem !important;
+}
+
+.switchButton:hover {
+  color: #2d3748 !important;
+  background: rgba(45, 55, 72, 0.05) !important;
+}
+
+@media (max-width: 600px) {
+  .authContainer {
+    padding: 2rem 1rem;
+  }
+
+  .authPaper {
+    padding: 2rem;
+  }
+
+  .authTitle {
+    font-size: 1.75rem !important;
+  }
+
+  .authSubtitle {
+    font-size: 0.9rem !important;
+  }
+
+  .submitButton {
+    font-size: 0.9rem !important;
+    padding: 0.875rem !important;
+  }
+} 
