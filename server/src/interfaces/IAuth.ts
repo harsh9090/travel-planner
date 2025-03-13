@@ -11,8 +11,7 @@ export interface ILoginRequest {
 export interface IRegisterRequest {
   email: string;
   password: string;
-  firstName: string;
-  lastName: string;
+  name: string;
 }
 
 export interface IAuthResponse {
@@ -20,7 +19,6 @@ export interface IAuthResponse {
   user: {
     id: string;
     email: string;
-    firstName: string;
-    lastName: string;
+    name: string;
   };
 } 
