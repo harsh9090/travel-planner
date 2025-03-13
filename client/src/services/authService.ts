@@ -1,6 +1,4 @@
-import axios from 'axios';
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000/api';
+import axiosInstance from '../utils/axiosInstance';
 
 export interface LoginData {
   email: string;
@@ -17,12 +15,20 @@ export interface AuthResponse {
     id: string;
     name: string;
     email: string;
+    location?: string;
+    bio?: string;
+    favoriteDestinations?: string[];
+    travelPreferences?: {
+      preferredTransport: string;
+      accommodationType: string;
+      budget: string;
+    };
   };
 }
 
 export const authService = {
   async login(data: LoginData): Promise<AuthResponse> {
-    const response = await axios.post(`${API_URL}/auth/login`, data);
+    const response = await axiosInstance.post('/auth/login', data);
     if (response.data.token) {
       localStorage.setItem('token', response.data.token);
       localStorage.setItem('user', JSON.stringify(response.data.user));
@@ -31,7 +37,7 @@ export const authService = {
   },
 
   async register(data: RegisterData): Promise<AuthResponse> {
-    const response = await axios.post(`${API_URL}/auth/register`, data);
+    const response = await axiosInstance.post('/auth/register', data);
     if (response.data.token) {
       localStorage.setItem('token', response.data.token);
       localStorage.setItem('user', JSON.stringify(response.data.user));

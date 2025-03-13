@@ -5,6 +5,14 @@ interface User {
   id: string;
   name: string;
   email: string;
+  location?: string;
+  bio?: string;
+  favoriteDestinations?: string[];
+  travelPreferences?: {
+    preferredTransport: string;
+    accommodationType: string;
+    budget: string;
+  };
 }
 
 interface AuthContextData {
@@ -12,7 +20,7 @@ interface AuthContextData {
   isLoading: boolean;
   user: User | null;
   token: string | null;
-  login: (token: string, user: User) => Promise<void>;
+  login: (token: string, user: User, shouldRedirect?: boolean) => Promise<void>;
   logout: () => Promise<void>;
 }
 
@@ -52,13 +60,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     loadStoredAuth();
   }, []);
 
-  const login = async (newToken: string, newUser: User) => {
+  const login = async (newToken: string, newUser: User, shouldRedirect: boolean = true) => {
     try {
       localStorage.setItem('token', newToken);
       localStorage.setItem('user', JSON.stringify(newUser));
       setToken(newToken);
       setUser(newUser);
-      await router.push('/dashboard');
+      if (shouldRedirect) {
+        await router.push('/dashboard');
+      }
     } catch (error) {
       console.error('Error during login:', error);
       throw error;

@@ -4,14 +4,14 @@ import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { theme } from './theme';
 import { AuthProvider } from './contexts/AuthContext';
-import { ProtectedRoute } from './components/ProtectedRoute';
+import ProtectedRoute from './components/ProtectedRoute';
 import { Navbar } from './components/Navbar';
 import Home from './pages/Home';
 import Login from './pages/login';
 import Register from './pages/register';
 import Dashboard from './pages/dashboard';
 import BudgetManagement from './pages/budget-management';
-import { Profile } from './pages/Profile';
+import Profile from './pages/Profile';
 
 function App() {
   return (
@@ -41,7 +41,7 @@ function App() {
               }
             />
             <Route
-              path="/profile"
+              path="/Profile"
               element={
                 <ProtectedRoute>
                   <Profile />

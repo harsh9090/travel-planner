@@ -11,6 +11,8 @@ import {
 } from '@mui/material';
 import Link from 'next/link';
 import { useAuth } from '../contexts/AuthContext';
+import axiosInstance from '../utils/axiosInstance';
+import { useRouter } from 'next/router';
 
 interface RegisterFormData {
   name: string;
@@ -30,6 +32,7 @@ export default function Register() {
   });
   const [error, setError] = useState<string>('');
   const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -60,27 +63,19 @@ export default function Register() {
     setIsLoading(true);
 
     try {
-      const response = await fetch('http://localhost:4000/api/auth/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          password: formData.password,
-        }),
+      const response = await axiosInstance.post('/auth/register', {
+        name: formData.name,
+        email: formData.email,
+        password: formData.password,
       });
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || 'Failed to register');
+      if (response.data) {
+        await login(response.data.token, response.data.user);
+        router.push('/login');
       }
-
-      await login(data.token, data.user);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred');
+    } catch (error) {
+      setError('Registration failed. Please try again.');
+      console.error('Registration error:', error);
     } finally {
       setIsLoading(false);
     }

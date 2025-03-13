@@ -11,6 +11,9 @@ import {
 } from '@mui/material';
 import Link from 'next/link';
 import { useAuth } from '../contexts/AuthContext';
+import axiosInstance from '../utils/axiosInstance';
+import { useRouter } from 'next/router';
+import { AxiosError } from 'axios';
 
 interface LoginFormData {
   email: string;
@@ -20,6 +23,7 @@ interface LoginFormData {
 export default function Login() {
   const { login } = useAuth();
   const theme = useTheme();
+  const router = useRouter();
   const [formData, setFormData] = useState<LoginFormData>({
     email: '',
     password: '',
@@ -35,29 +39,44 @@ export default function Login() {
     }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    e.stopPropagation();
     setError('');
     setIsLoading(true);
 
     try {
-      const response = await fetch('http://localhost:4000/api/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || 'Failed to login');
+      // Make the API call
+      const response = await axiosInstance.post('/auth/login', formData);
+      
+      // Check if we have valid data
+      if (response.data?.token && response.data?.user) {
+        await login(response.data.token, response.data.user);
+        router.push('/dashboard');
+      } else {
+        setError('Invalid response from server');
       }
-
-      await login(data.token, data.user);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred');
+      if (err instanceof AxiosError) {
+        // Handle specific error cases
+        if (err.response?.status === 401) {
+          setError('Invalid email or password');
+        } else if (err.response?.data?.error) {
+          setError(err.response.data.error);
+        } else if (!err.response) {
+          setError('Network error. Please check your connection.');
+        } else {
+          setError('An error occurred during login. Please try again.');
+        }
+        console.error('Login error:', {
+          status: err.response?.status,
+          data: err.response?.data,
+          message: err.message
+        });
+      } else {
+        setError('An unexpected error occurred');
+        console.error('Unexpected error:', err);
+      }
     } finally {
       setIsLoading(false);
     }
@@ -74,12 +93,24 @@ export default function Login() {
         </Typography>
 
         {error && (
-          <Alert severity="error" sx={{ mb: 3 }}>
+          <Alert 
+            severity="error" 
+            sx={{ mb: 3 }}
+            onClose={() => setError('')}
+          >
             {error}
           </Alert>
         )}
 
-        <form onSubmit={handleSubmit}>
+        <Box 
+          component="form" 
+          onSubmit={handleSubmit}
+          noValidate
+          sx={{ 
+            '& form': { display: 'contents' },
+            '& button[type="submit"]': { display: 'block' }
+          }}
+        >
           <TextField
             fullWidth
             label="Email"
@@ -91,6 +122,8 @@ export default function Login() {
             required
             autoComplete="email"
             autoFocus
+            error={!!error}
+            disabled={isLoading}
           />
           <TextField
             fullWidth
@@ -102,18 +135,20 @@ export default function Login() {
             margin="normal"
             required
             autoComplete="current-password"
+            error={!!error}
+            disabled={isLoading}
           />
           <Button
             type="submit"
             fullWidth
             variant="contained"
             size="large"
-            disabled={isLoading}
+            disabled={isLoading || !formData.email || !formData.password}
             sx={{ mt: 3, mb: 2 }}
           >
             {isLoading ? 'Signing in...' : 'Sign In'}
           </Button>
-        </form>
+        </Box>
 
         <Box textAlign="center" mt={2}>
           <Typography variant="body2">

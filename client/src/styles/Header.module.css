@@ -4,6 +4,7 @@
   z-index: 1000;
   backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  background-color: rgba(255, 255, 255, 0.9) !important;
 }
 
 .toolbar {
@@ -11,6 +12,9 @@
   max-width: 1200px;
   margin: 0 auto;
   width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .logo {
@@ -30,6 +34,7 @@
 .navButtons {
   display: flex;
   gap: 1rem;
+  align-items: center;
 }
 
 .navButton {
@@ -40,6 +45,7 @@
   border-radius: 50px !important;
   transition: all 0.2s ease !important;
   border: 1px solid transparent !important;
+  min-width: auto !important;
 }
 
 .navButton:hover {
@@ -60,6 +66,24 @@
   box-shadow: 0 2px 8px rgba(45, 55, 72, 0.2) !important;
 }
 
+.avatar {
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.avatar:hover {
+  transform: scale(1.05);
+}
+
+.menuItem {
+  min-width: 120px;
+  padding: 8px 20px;
+}
+
+.menuItem:hover {
+  background-color: rgba(45, 55, 72, 0.05);
+}
+
 @media (max-width: 600px) {
   .toolbar {
     padding: 0.5rem 1rem !important;
@@ -72,5 +96,9 @@
   .navButton, .activeButton {
     padding: 6px 12px !important;
     font-size: 0.9rem !important;
+  }
+
+  .navButtons {
+    gap: 0.5rem;
   }
 } 

@@ -1,235 +1,136 @@
-import React from 'react';
-import { useState } from 'react';
+import React, { useEffect } from 'react';
 import {
   Container,
-  Grid,
-  Paper,
   Typography,
   Box,
   Button,
-  IconButton,
-  Card,
-  CardContent,
-  Chip,
-  LinearProgress,
+  Tabs,
+  Tab,
+  CircularProgress,
+  Alert
 } from '@mui/material';
-import {
-  Add as AddIcon,
-  Flight as FlightIcon,
-  AccountBalance as BudgetIcon,
-  Map as MapIcon,
-  DateRange as DateIcon,
-  ArrowUpward as ArrowUpwardIcon,
-  ArrowDownward as ArrowDownwardIcon,
-} from '@mui/icons-material';
-import styles from '../styles/Dashboard.module.css';
-import ProtectedRoute from '../components/ProtectedRoute';
+import { Add as AddIcon } from '@mui/icons-material';
+import { useRouter } from 'next/router';
+import { useTrip } from '../contexts/TripContext';
+import TripList from '../components/TripList';
 
-export default function Dashboard() {
-  const [upcomingTrips] = useState([
-    {
-      id: 1,
-      destination: 'Paris, France',
-      date: '15-20 May 2024',
-      budget: 2500,
-      spent: 1200,
-      status: 'Planning'
-    },
-    {
-      id: 2,
-      destination: 'Tokyo, Japan',
-      date: '10-25 June 2024',
-      budget: 4000,
-      spent: 800,
-      status: 'Booked'
-    }
-  ]);
+interface TabPanelProps {
+  children?: React.ReactNode;
+  index: number;
+  value: number;
+}
+
+function TabPanel(props: TabPanelProps) {
+  const { children, value, index, ...other } = props;
 
   return (
-    <ProtectedRoute>
-      <Container maxWidth="xl" className={styles.dashboardContainer}>
-        {/* Header Section */}
-        <Box className={styles.dashboardHeader}>
-          <Box>
-            <Typography variant="h4" className={styles.welcomeText}>
-              Welcome back, Alex
-            </Typography>
-            <Typography variant="body1" className={styles.subText}>
-              Track your travel plans and manage your budgets
-            </Typography>
-          </Box>
-          <Button
-            variant="contained"
-            startIcon={<AddIcon />}
-            className={styles.newTripButton}
-          >
-            Plan New Trip
-          </Button>
-        </Box>
-
-        {/* Stats Cards */}
-        <Grid container spacing={3} className={styles.statsSection}>
-          <Grid item xs={12} sm={6} md={3}>
-            <Paper className={styles.statCard}>
-              <Box className={styles.statContent}>
-                <Box className={styles.statIcon} style={{ background: 'rgba(45, 55, 72, 0.1)' }}>
-                  <FlightIcon className={styles.icon} />
-                </Box>
-                <Box>
-                  <Typography variant="h6" className={styles.statValue}>2</Typography>
-                  <Typography variant="body2" className={styles.statLabel}>Upcoming Trips</Typography>
-                </Box>
-              </Box>
-            </Paper>
-          </Grid>
-          <Grid item xs={12} sm={6} md={3}>
-            <Paper className={styles.statCard}>
-              <Box className={styles.statContent}>
-                <Box className={styles.statIcon} style={{ background: 'rgba(72, 187, 120, 0.1)' }}>
-                  <BudgetIcon className={styles.icon} style={{ color: '#48bb78' }} />
-                </Box>
-                <Box>
-                  <Typography variant="h6" className={styles.statValue}>$6,500</Typography>
-                  <Typography variant="body2" className={styles.statLabel}>Total Budget</Typography>
-                </Box>
-              </Box>
-            </Paper>
-          </Grid>
-          <Grid item xs={12} sm={6} md={3}>
-            <Paper className={styles.statCard}>
-              <Box className={styles.statContent}>
-                <Box className={styles.statIcon} style={{ background: 'rgba(237, 137, 54, 0.1)' }}>
-                  <MapIcon className={styles.icon} style={{ color: '#ed8936' }} />
-                </Box>
-                <Box>
-                  <Typography variant="h6" className={styles.statValue}>2</Typography>
-                  <Typography variant="body2" className={styles.statLabel}>Destinations</Typography>
-                </Box>
-              </Box>
-            </Paper>
-          </Grid>
-          <Grid item xs={12} sm={6} md={3}>
-            <Paper className={styles.statCard}>
-              <Box className={styles.statContent}>
-                <Box className={styles.statIcon} style={{ background: 'rgba(66, 153, 225, 0.1)' }}>
-                  <DateIcon className={styles.icon} style={{ color: '#4299e1' }} />
-                </Box>
-                <Box>
-                  <Typography variant="h6" className={styles.statValue}>42</Typography>
-                  <Typography variant="body2" className={styles.statLabel}>Travel Days</Typography>
-                </Box>
-              </Box>
-            </Paper>
-          </Grid>
-        </Grid>
-
-        {/* Upcoming Trips Section */}
-        <Box className={styles.sectionHeader}>
-          <Typography variant="h5">Upcoming Trips</Typography>
-          <Button variant="text" className={styles.viewAllButton}>View All</Button>
-        </Box>
-        
-        <Grid container spacing={3} className={styles.tripsGrid}>
-          {upcomingTrips.map((trip) => (
-            <Grid item xs={12} md={6} key={trip.id}>
-              <Card className={styles.tripCard}>
-                <CardContent>
-                  <Box className={styles.tripHeader}>
-                    <Typography variant="h6" className={styles.tripDestination}>
-                      {trip.destination}
-                    </Typography>
-                    <Chip
-                      label={trip.status}
-                      size="small"
-                      className={styles.statusChip}
-                      style={{
-                        backgroundColor: trip.status === 'Booked' ? 'rgba(72, 187, 120, 0.1)' : 'rgba(237, 137, 54, 0.1)',
-                        color: trip.status === 'Booked' ? '#48bb78' : '#ed8936'
-                      }}
-                    />
-                  </Box>
-                  <Box className={styles.tripDetails}>
-                    <Box className={styles.tripInfo}>
-                      <DateIcon className={styles.tripIcon} />
-                      <Typography variant="body2">{trip.date}</Typography>
-                    </Box>
-                    <Box className={styles.tripInfo}>
-                      <BudgetIcon className={styles.tripIcon} />
-                      <Typography variant="body2">${trip.budget.toLocaleString()}</Typography>
-                    </Box>
-                  </Box>
-                  <Box className={styles.budgetProgress}>
-                    <Box className={styles.budgetHeader}>
-                      <Typography variant="body2">Budget Spent</Typography>
-                      <Typography variant="body2" color="textSecondary">
-                        ${trip.spent.toLocaleString()} / ${trip.budget.toLocaleString()}
-                      </Typography>
-                    </Box>
-                    <LinearProgress
-                      variant="determinate"
-                      value={(trip.spent / trip.budget) * 100}
-                      className={styles.progressBar}
-                    />
-                  </Box>
-                </CardContent>
-              </Card>
-            </Grid>
-          ))}
-        </Grid>
-
-        {/* Budget Overview Section */}
-        <Box className={styles.sectionHeader}>
-          <Typography variant="h5">Budget Overview</Typography>
-          <IconButton className={styles.filterButton}>
-            <DateIcon />
-          </IconButton>
-        </Box>
-        
-        <Grid container spacing={3}>
-          <Grid item xs={12} md={8}>
-            <Paper className={styles.budgetChart}>
-              <Typography variant="h6" gutterBottom>Monthly Spending</Typography>
-              {/* Chart component will be added here */}
-              <Box className={styles.chartPlaceholder}>
-                <Typography variant="body2" color="textSecondary">
-                  Chart visualization will be implemented
-                </Typography>
-              </Box>
-            </Paper>
-          </Grid>
-          <Grid item xs={12} md={4}>
-            <Paper className={styles.recentActivity}>
-              <Typography variant="h6" gutterBottom>Recent Activity</Typography>
-              <Box className={styles.activityList}>
-                <Box className={styles.activityItem}>
-                  <Box className={styles.activityIcon} style={{ background: 'rgba(72, 187, 120, 0.1)' }}>
-                    <ArrowUpwardIcon style={{ color: '#48bb78' }} />
-                  </Box>
-                  <Box className={styles.activityContent}>
-                    <Typography variant="body2">Flight Tickets - Paris</Typography>
-                    <Typography variant="caption" color="textSecondary">2 days ago</Typography>
-                  </Box>
-                  <Typography variant="body2" className={styles.activityAmount} style={{ color: '#48bb78' }}>
-                    +$850
-                  </Typography>
-                </Box>
-                <Box className={styles.activityItem}>
-                  <Box className={styles.activityIcon} style={{ background: 'rgba(237, 137, 54, 0.1)' }}>
-                    <ArrowDownwardIcon style={{ color: '#ed8936' }} />
-                  </Box>
-                  <Box className={styles.activityContent}>
-                    <Typography variant="body2">Hotel Booking - Tokyo</Typography>
-                    <Typography variant="caption" color="textSecondary">5 days ago</Typography>
-                  </Box>
-                  <Typography variant="body2" className={styles.activityAmount} style={{ color: '#ed8936' }}>
-                    -$1,200
-                  </Typography>
-                </Box>
-              </Box>
-            </Paper>
-          </Grid>
-        </Grid>
-      </Container>
-    </ProtectedRoute>
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`trip-tabpanel-${index}`}
+      aria-labelledby={`trip-tab-${index}`}
+      {...other}
+    >
+      {value === index && <Box sx={{ py: 3 }}>{children}</Box>}
+    </div>
   );
-} 
+}
+
+function a11yProps(index: number) {
+  return {
+    id: `trip-tab-${index}`,
+    'aria-controls': `trip-tabpanel-${index}`
+  };
+}
+
+const Dashboard = () => {
+  const router = useRouter();
+  const {
+    trips,
+    upcomingTrips,
+    pastTrips,
+    loading,
+    error,
+    fetchTrips,
+    fetchUpcomingTrips,
+    fetchPastTrips
+  } = useTrip();
+  const [tabValue, setTabValue] = React.useState(0);
+
+  useEffect(() => {
+    const loadTrips = async () => {
+      try {
+        await Promise.all([fetchTrips(), fetchUpcomingTrips(), fetchPastTrips()]);
+      } catch (err) {
+        console.error('Failed to load trips:', err);
+      }
+    };
+    loadTrips();
+  }, [fetchTrips, fetchUpcomingTrips, fetchPastTrips]);
+
+  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
+    setTabValue(newValue);
+  };
+
+  const handleCreateTrip = () => {
+    router.push('/trips/create');
+  };
+
+  if (loading) {
+    return (
+      <Box display="flex" justifyContent="center" alignItems="center" minHeight="60vh">
+        <CircularProgress />
+      </Box>
+    );
+  }
+
+  return (
+    <Container maxWidth="lg" sx={{ py: 4 }}>
+      <Box display="flex" justifyContent="space-between" alignItems="center" mb={4}>
+        <Typography variant="h4" component="h1">
+          My Trips
+        </Typography>
+        <Button
+          variant="contained"
+          color="primary"
+          startIcon={<AddIcon />}
+          onClick={handleCreateTrip}
+        >
+          Create New Trip
+        </Button>
+      </Box>
+
+      {error && (
+        <Alert severity="error" sx={{ mb: 3 }}>
+          {error}
+        </Alert>
+      )}
+
+      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+        <Tabs value={tabValue} onChange={handleTabChange} aria-label="trip tabs">
+          <Tab label="All Trips" {...a11yProps(0)} />
+          <Tab label="Upcoming Trips" {...a11yProps(1)} />
+          <Tab label="Past Trips" {...a11yProps(2)} />
+        </Tabs>
+      </Box>
+
+      <TabPanel value={tabValue} index={0}>
+        <TripList
+          trips={trips}
+          emptyMessage="No trips found. Click 'Create New Trip' to get started!"
+        />
+      </TabPanel>
+      <TabPanel value={tabValue} index={1}>
+        <TripList
+          trips={upcomingTrips}
+          emptyMessage="No upcoming trips. Plan your next adventure!"
+        />
+      </TabPanel>
+      <TabPanel value={tabValue} index={2}>
+        <TripList trips={pastTrips} emptyMessage="No past trips found." />
+      </TabPanel>
+    </Container>
+  );
+};
+
+export default Dashboard; 
